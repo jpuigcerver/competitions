@@ -374,3 +374,38 @@ def icdar2017_writer_identification(*args, **kwargs):
     command_output = re.sub(rgx, "", command_output)
     print(result)
     return (result, command_output)
+
+def icdar2017_kws_tool(*args, **kwargs):
+    print("icdar2017_kws_tool")
+    executable_folder = \
+        '{}/competitions/executables/Icdar17KwsEval'.format(settings.BASE_DIR)
+    resultdata = kwargs.pop('resultdata',
+                            '{}/QbS_ValidExample.txt'.format(executable_folder))
+    privatedata = kwargs.pop('privatedata',
+                             '{}/QbS_ValidGT.txt'.format(executable_folder))
+    querylist = kwargs.pop('querylist',
+                           '{}/QbS_ValidQry.txt'.format(executable_folder))
+
+    print(resultdata)
+    print(privatedata)
+    print(querylist)
+
+    executable = '{}/Icdar17KwsEval'.format(executable_folder)
+    commandline = '{} --query_set {} {} {}'.format(executable, querylist,
+                                                   privatedata, resultdata)
+    print(commandline)
+
+    command_output = cmdline(commandline)
+
+    r = re.search(r'gAP = (\S+)', command_output)
+    gAP = r.group(1) if r else 0.0
+
+    r = re.search(r'mAP = (\S+)', command_output)
+    mAP = r.group(1) if r else 0.0
+
+    result = {
+        'gAP' : gAP,
+        'mAP' : mAP
+    }
+    print(result)
+    return result
