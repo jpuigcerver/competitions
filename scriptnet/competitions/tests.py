@@ -219,6 +219,8 @@ class ModelTests(TestCase):
         testname = 'Test affiliation'
         w = Affiliation.objects.create(name=testname)
         response = self.client.get(reverse('index'))
+        print(response)
+        print(testname)
         self.assertContains(response, testname)
 
     def test_competition_creation(self):
