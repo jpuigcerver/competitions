@@ -370,10 +370,21 @@ class EvaluatorTests(TestCase):
 
         )
     def test_icdar2017_kws_tool(self):
+        # Generic test
         wdir = 'competitions/executables/Icdar17KwsEval'
         res = icdar2017_kws_tool()
         self.assertEqual(res, {'gAP' : 0.0156585,
                                'mAP' : 0.0608889})
+        # Wrong submission format
+        res = icdar2017_kws_tool(
+            resultdata  = '%s/QbS_ValidGT.txt' % wdir,
+            privatedata = '%s/QbS_ValidGT.txt' % wdir,
+            querylist   = '%s/QbS_ValidQry.txt' % wdir)
+        self.assertEqual(res, {'gAP' : 0.0,
+                               'mAP' : 0.0})
+        # These tests are commented, since we cannot publish the Test GT
+        # to GitHub, yet.
+        '''
         # QbE, Perfect solution
         res = icdar2017_kws_tool(
             resultdata  = '%s/examples/Fake_QbE_Perfect.txt' % wdir,
@@ -409,6 +420,7 @@ class EvaluatorTests(TestCase):
             querylist   = '%s/Eval_Query_Keywords.txt' % wdir)
         self.assertEqual(res, {'gAP' : 0.0,
                                'mAP' : 0.0})
+        '''
 
 
 class EvaluatorTests_HTR2016(TestCase):
