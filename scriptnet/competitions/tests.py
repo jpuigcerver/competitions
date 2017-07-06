@@ -370,9 +370,46 @@ class EvaluatorTests(TestCase):
 
         )
     def test_icdar2017_kws_tool(self):
+        wdir = 'competitions/executables/Icdar17KwsEval'
         res = icdar2017_kws_tool()
-        self.assertEqual(res, {'gAP' : '0.0156585',
-                               'mAP' : '0.0608889'})
+        self.assertEqual(res, {'gAP' : 0.0156585,
+                               'mAP' : 0.0608889})
+        # QbE, Perfect solution
+        res = icdar2017_kws_tool(
+            resultdata  = '%s/examples/Fake_QbE_Perfect.txt' % wdir,
+            privatedata = '%s/Eval_QbE_GT.txt' % wdir,
+            querygroups = '%s/Eval_Query_Images.txt' % wdir)
+        self.assertEqual(res, {'gAP' : 1.0,
+                               'mAP' : 1.0})
+        # QbE, Good solution
+        res = icdar2017_kws_tool(
+            resultdata  = '%s/examples/Fake_QbE_Good.txt' % wdir,
+            privatedata = '%s/Eval_QbE_GT.txt' % wdir,
+            querygroups = '%s/Eval_Query_Images.txt' % wdir)
+        self.assertEqual(res, {'gAP' : 0.852539,
+                               'mAP' : 0.818751})
+        # QbS, Perfect solution
+        res = icdar2017_kws_tool(
+            resultdata  = '%s/examples/Fake_QbS_Perfect.txt' % wdir,
+            privatedata = '%s/Eval_QbS_GT.txt' % wdir,
+            querylist   = '%s/Eval_Query_Keywords.txt' % wdir)
+        self.assertEqual(res, {'gAP' : 1.0,
+                               'mAP' : 1.0})
+        # QbS, Good solution
+        res = icdar2017_kws_tool(
+            resultdata  = '%s/examples/Fake_QbS_Good.txt' % wdir,
+            privatedata = '%s/Eval_QbS_GT.txt' % wdir,
+            querylist   = '%s/Eval_Query_Keywords.txt' % wdir)
+        self.assertEqual(res, {'gAP' : 0.853516,
+                               'mAP' : 0.840417})
+        # Wrong result format
+        res = icdar2017_kws_tool(
+            resultdata  = '%s/Eval_QbS_GT.txt' % wdir,
+            privatedata = '%s/Eval_QbS_GT.txt' % wdir,
+            querylist   = '%s/Eval_Query_Keywords.txt' % wdir)
+        self.assertEqual(res, {'gAP' : 0.0,
+                               'mAP' : 0.0})
+
 
 class EvaluatorTests_HTR2016(TestCase):
     def test_htr2016_dependencies(self):

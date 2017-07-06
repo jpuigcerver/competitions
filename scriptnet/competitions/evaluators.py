@@ -385,14 +385,24 @@ def icdar2017_kws_tool(*args, **kwargs):
                              '{}/QbS_ValidGT.txt'.format(executable_folder))
     querylist = kwargs.pop('querylist',
                            '{}/QbS_ValidQry.txt'.format(executable_folder))
+    querygroups = kwargs.pop('querygroups', None)
 
     print(resultdata)
     print(privatedata)
     print(querylist)
+    print(querygroups)
 
     executable = '{}/Icdar17KwsEval'.format(executable_folder)
-    commandline = '{} --query_set {} {} {}'.format(executable, querylist,
-                                                   privatedata, resultdata)
+    if querygroups:
+        commandline = '{} --query_groups {} {} {}'.format(executable,
+                                                          querygroups,
+                                                          privatedata,
+                                                          resultdata)
+    else:
+        commandline = '{} --query_set {} {} {}'.format(executable,
+                                                       querylist,
+                                                       privatedata,
+                                                       resultdata)
     print(commandline)
 
     command_output = cmdline(commandline)
@@ -404,8 +414,8 @@ def icdar2017_kws_tool(*args, **kwargs):
     mAP = r.group(1) if r else 0.0
 
     result = {
-        'gAP' : gAP,
-        'mAP' : mAP
+        'gAP' : float(gAP),
+        'mAP' : float(mAP)
     }
     print(result)
     return result
