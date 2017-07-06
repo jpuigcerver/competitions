@@ -373,54 +373,13 @@ class EvaluatorTests(TestCase):
         # Generic test
         wdir = 'competitions/executables/Icdar17KwsEval'
         res = icdar2017_kws_tool()
-        self.assertEqual(res, {'gAP' : 0.0156585,
-                               'mAP' : 0.0608889})
+        self.assertEqual(res, {'gAP': 0.00058712, 'mAP': 0.000426333})
         # Wrong submission format
         res = icdar2017_kws_tool(
             resultdata  = '%s/QbS_ValidGT.txt' % wdir,
             privatedata = '%s/QbS_ValidGT.txt' % wdir,
             querylist   = '%s/QbS_ValidQry.txt' % wdir)
-        self.assertEqual(res, {'gAP' : 0.0,
-                               'mAP' : 0.0})
-        # These tests are commented, since we cannot publish the Test GT
-        # to GitHub, yet.
-        '''
-        # QbE, Perfect solution
-        res = icdar2017_kws_tool(
-            resultdata  = '%s/examples/Fake_QbE_Perfect.txt' % wdir,
-            privatedata = '%s/Eval_QbE_GT.txt' % wdir,
-            querygroups = '%s/Eval_Query_Images.txt' % wdir)
-        self.assertEqual(res, {'gAP' : 1.0,
-                               'mAP' : 1.0})
-        # QbE, Good solution
-        res = icdar2017_kws_tool(
-            resultdata  = '%s/examples/Fake_QbE_Good.txt' % wdir,
-            privatedata = '%s/Eval_QbE_GT.txt' % wdir,
-            querygroups = '%s/Eval_Query_Images.txt' % wdir)
-        self.assertEqual(res, {'gAP' : 0.852539,
-                               'mAP' : 0.818751})
-        # QbS, Perfect solution
-        res = icdar2017_kws_tool(
-            resultdata  = '%s/examples/Fake_QbS_Perfect.txt' % wdir,
-            privatedata = '%s/Eval_QbS_GT.txt' % wdir,
-            querylist   = '%s/Eval_Query_Keywords.txt' % wdir)
-        self.assertEqual(res, {'gAP' : 1.0,
-                               'mAP' : 1.0})
-        # QbS, Good solution
-        res = icdar2017_kws_tool(
-            resultdata  = '%s/examples/Fake_QbS_Good.txt' % wdir,
-            privatedata = '%s/Eval_QbS_GT.txt' % wdir,
-            querylist   = '%s/Eval_Query_Keywords.txt' % wdir)
-        self.assertEqual(res, {'gAP' : 0.853516,
-                               'mAP' : 0.840417})
-        # Wrong result format
-        res = icdar2017_kws_tool(
-            resultdata  = '%s/Eval_QbS_GT.txt' % wdir,
-            privatedata = '%s/Eval_QbS_GT.txt' % wdir,
-            querylist   = '%s/Eval_Query_Keywords.txt' % wdir)
-        self.assertEqual(res, {'gAP' : 0.0,
-                               'mAP' : 0.0})
-        '''
+        self.assertEqual(res, {'gAP' : None, 'mAP' : None})
 
 
 class EvaluatorTests_HTR2016(TestCase):
